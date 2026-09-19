@@ -1,0 +1,197 @@
+
+{
+  "version": "v1",
+  "config": {
+    "mapState": {
+      "latitude": 35.0,
+      "longitude": 100.0,
+      "zoom": 2.0,
+      "isSplit": true
+    },
+
+    "visState": {
+      "filters": [
+        {
+          "id": "diagnostic_filter",
+          "dataId": ["china_grid"],
+          "name": ["diagnostic_state"],
+          "type": "multiSelect",
+          "value": ["Agreement", "Divergence", "Instability"]
+        },
+        {
+          "id": "stability_filter",
+          "dataId": ["china_grid"],
+          "name": ["local_stability"],
+          "type": "range",
+          "value": [0, 100]
+        },
+        {
+          "id": "umap_cluster_filter",
+          "dataId": ["china_grid"],
+          "name": ["umap_cluster_group"],
+          "type": "multiSelect",
+          "value": []
+        },
+        {
+          "id": "satellite_cluster_filter",
+          "dataId": ["china_grid"],
+          "name": ["satellite_cluster_group"],
+          "type": "multiSelect",
+          "value": []
+        },
+        {
+          "id": "selected_cell_filter",
+          "dataId": ["selected_cell"],
+          "name": ["grid_id"],
+          "type": "range",
+          "value": [-1, -1]
+        }
+      ],
+      "interactionConfig": {
+        "tooltip": {
+          "fieldsToShow": {},
+          "enabled": true,
+          "compareMode": false,
+          "compareType": "absolute"}
+      },
+      "splitMaps": [
+        {
+          "layers": {
+            "umap_clusters": true,
+            "satellite_clusters": false,
+            "density_lisa_glyphs": true,
+            "selected_cell_outline": true}
+        },
+        {
+          "layers": {
+            "umap_clusters": false,
+            "satellite_clusters": true,
+            "density_lisa_glyphs": true,
+            "selected_cell_outline": true}
+        }
+      ],    
+      "layers": [
+                {
+          "id": "selected_cell_outline",
+          "type": "geojson",
+          "config": {
+            "dataId": "selected_cell",
+            "label": "Selected cell",
+            "color": [255, 0, 0],
+            "columns": {"geojson": "_geojson"},
+            "isVisible": true,
+            "visConfig": {
+              "opacity": 0,
+              "strokeOpacity": 1,
+              "thickness": 2,
+              "stroked": true,
+              "filled": false,
+              "enable3d": false
+            }
+          },
+          "visualChannels": {}
+        },
+          {
+          "id": "density_lisa_glyphs",
+          "type": "point",
+          "config": {
+            "dataId": "china_grid",
+            "label": "Density LISA glyphs",
+            "columns": {"lat": "latitude", "lng": "longitude"},
+            "isVisible": true,
+            "visConfig": {
+              "radius": 0.025,
+              "fixedRadius": true,
+              "opacity": 0.4,
+              "filled": true,
+              "outline": false
+            },
+            "textLabel": [
+              {
+                "field": {"name": "density_lisa_glyph", "type": "string"},
+                "color": [0,0,0],
+                "size": 64,
+                "offset": [0, 0],
+                "anchor": "middle",
+                "alignment": "center"
+              }
+            ]
+          },
+          "visualChannels": {}
+        },
+        {
+          "id": "umap_clusters",
+          "type": "geojson",
+          "config": {
+            "dataId": "china_grid",
+            "label": "UMAP clusters",
+            "columns": {"geojson": "_geojson"},
+            "isVisible": true,
+            "visConfig": {
+              "opacity": 0.2,
+              "strokeOpacity": 0,
+              "thickness": 0,
+              "stroked": false,
+              "filled": true,
+              "enable3d": false,
+              "colorRange": {
+                "name": "ColorBrewer Paired",
+                "type": "qualitative",
+                "category": "ColorBrewer",
+                "colors": ["#A6CEE3", "#1F78B4", "#B2DF8A", "#33A02C", "#FB9A99", "#E31A1C", "#FDBF6F", "#FF7F00", "#CAB2D6", "#6A3D9A", "#FFFF99", "#B15928"]
+              }
+            }
+          },
+          "visualChannels": {
+            "colorField": {"name": "umap_cluster_group", "type": "string"},
+            "colorScale": "ordinal"
+          }
+        },
+        {
+          "id": "satellite_clusters",
+          "type": "geojson",
+          "config": {
+            "dataId": "china_grid",
+            "label": "Satellite clusters",
+            "columns": {"geojson": "_geojson"},
+            "isVisible": true,
+            "visConfig": {
+              "opacity": 0.2,
+              "strokeOpacity": 0,
+              "thickness": 0,
+              "stroked": false,
+              "filled": true,
+              "enable3d": false,
+              "colorRange": {
+                "name": "ColorBrewer Paired",
+                "type": "qualitative",
+                "category": "ColorBrewer",
+                "colors": ["#A6CEE3", "#1F78B4", "#B2DF8A", "#33A02C", "#FB9A99", "#E31A1C", "#FDBF6F", "#FF7F00", "#CAB2D6", "#6A3D9A", "#FFFF99", "#B15928"]
+              }
+            }
+          },
+          "visualChannels": {
+            "colorField": {"name": "satellite_cluster_group", "type": "string"},
+            "colorScale": "ordinal"
+          }
+        }
+      ]
+    },
+        "mapStyle": {
+        "styleType": "light",
+        "topLayerGroups": {
+          "label": true
+        },
+        "visibleLayerGroups": {
+          "label": true,
+          "road": true,
+          "border": true,
+          "building": true,
+          "water": true,
+          "land": true,
+          "3d building": false
+        }
+      },
+    "title": "Cluster comparison"
+  }
+}
